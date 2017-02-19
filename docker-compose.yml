@@ -1,6 +1,7 @@
 version: '2'
 services:
     develfactory-web:
+      command: "sh /code/init.sh"
       build: docker_resources/web/.
       image: develfactory-web
       ports:

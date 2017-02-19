@@ -1,0 +1,18 @@
+{
+  "name": "develfactory-web",
+  "description": "",
+  "dependencies": {
+    "angular": "^1.6.1"
+  },
+  "authors": [
+    "develfactory <dev@develfactory.com>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true
+}

@@ -90,6 +90,12 @@ ENV/
 
 # IDE
 .idea
+*.iml
 
 # OSX
 .DS_Store
+
+# staticfiles
+bower_components/
+vendor/
+node_modules/
