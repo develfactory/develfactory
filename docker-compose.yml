@@ -1,0 +1,18 @@
+version: '2'
+services:
+    develfactory-web:
+      build: docker_resources/web/.
+      image: develfactory-web
+      ports:
+        - "80"
+      links:
+        - develfactory-api
+      volumes:
+        - "./web/:/code/"
+    develfactory-api:
+      build: docker_resources/api/.
+      image: develfactory-api
+      ports:
+        - "5000"
+      volumes:
+        - "./api/:/code/"
