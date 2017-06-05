@@ -87,3 +87,18 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# IDE
+.idea
+
+# OSX
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Database
+*.db
+
+Misc
+.vagrant

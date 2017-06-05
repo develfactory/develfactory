@@ -1,0 +1,11 @@
+---
+# file: installation.yml
+- hosts: localhost
+  become: true
+  become_method: sudo
+  become_user: root
+  roles:
+    - common
+    - docker
+    - proxy-tier
+    - webapps
