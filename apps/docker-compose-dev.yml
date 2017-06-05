@@ -1,0 +1,21 @@
+version: "2"
+services:
+  develfactory-api:
+    command: "flask run"
+    build: api/.
+    image: develfactory-api
+    ports:
+      - "8000"
+    volumes:
+      - "./api/:/app"
+    environment:
+      FLASK_APP: "api"
+  develfactory-web:
+    image: nginx
+    ports:
+      - "80"
+    links:
+      - develfactory-api
+    volumes:
+      - ./web/:/usr/share/nginx/html:ro
+      - ./web/nginx-dev.conf:/etc/nginx/nginx.conf:ro

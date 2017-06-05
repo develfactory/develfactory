@@ -1,0 +1,46 @@
+---
+
+- name: Deploy proxy-tier
+  tags: nginx
+  docker_service:
+    state: present
+    recreate: always
+    project_name: nginx
+    definition:
+      version: "2"
+      services:
+        develfactory-api:
+          command: "flask run"
+          build: api/.
+          image: develfactory-api
+          ports:
+            - "8000"
+            - "5000"
+          volumes:
+            - "./api/:/app"
+          networks:
+            - proxy-tier
+          environment:
+            FLASK_APP: "api"
+            VIRTUAL_HOST: "local.api.develfactory.net"
+            VIRTUAL_PORT: "8000"
+            VIRTUAL_NETWORK: "nginx-proxy"
+        develfactory-web:
+          image: nginx
+          ports:
+            - "80"
+            - "5000"
+          links:
+            - develfactory-api
+          volumes:
+            - "{{ playbook_dir }}/apps/web/:/usr/share/nginx/html:ro"
+          networks:
+            - proxy-tier
+          environment:
+            VIRTUAL_HOST: "local.develfactory.net"
+            VIRTUAL_PORT: "80"
+            VIRTUAL_NETWORK: "nginx-proxy"
+      networks:
+        proxy-tier:
+          external:
+            name: nginx-proxy
