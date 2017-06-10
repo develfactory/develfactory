@@ -8,8 +8,12 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 
 RUN apt-get install -y nodejs
 
-RUN npm install -g bower
+# RUN npm install --no-bin-links -g bower
 
 RUN npm install -g @angular/cli
 
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
+
+WORKDIR /usr/share/nginx/html
+
+CMD [ "sh", "-c", "./startup.sh" ]
