@@ -7,11 +7,17 @@ import {TooltipModule} from "ng2-bootstrap";
 import {FlashService} from "../../services/flash.service";
 import {HomeRoutingModule} from "./home-routing.module";
 import {HomeComponent} from "./home.component";
+import {ApplicationsCreateComponent} from "./applications-create.component";
+import {HomeHomeComponent} from "./home-home.component";
+import {FormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   imports: [
+    HttpModule,
     CommonModule,
     BrowserModule,
+    FormsModule,
     TooltipModule.forRoot(),
     BrowserAnimationsModule,
     NoopAnimationsModule,
@@ -19,7 +25,9 @@ import {HomeComponent} from "./home.component";
     HomeRoutingModule
   ],
   declarations: [
-    HomeComponent
+    HomeComponent,
+    HomeHomeComponent,
+    ApplicationsCreateComponent
   ],
   providers: [FlashService]
 })

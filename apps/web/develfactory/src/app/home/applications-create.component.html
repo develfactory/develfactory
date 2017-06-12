@@ -1,0 +1,29 @@
+<h1>Add a new application</h1>
+<p><a [routerLink]="'/home'">Go back to Home</a></p>
+<div class="row">
+  <div class="col-md-7">
+    <form (ngSubmit)="saveForm()" #createApplicationForm="ngForm">
+      <div class="form-group" [ngClass]="{'has-error': !(name.valid || name.pristine)}">
+        <label for="name">Name<span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="form.name" required="required"
+               #name="ngModel">
+        <div *ngIf="name.invalid && name.dirty" class="help-block">
+          Please enter the name of the application
+        </div>
+      </div>
+      <div class="form-group" [ngClass]="{'has-error': !(content.valid || content.pristine)}">
+        <label for="content">Dockerfile<span class="text-danger">*</span></label>
+        <textarea id="content" rows="10" class="form-control" [(ngModel)]="form.content" required="required"
+                  name="content" #content="ngModel"></textarea>
+        <div *ngIf="content.invalid && content.dirty" class="help-block">
+          Please enter your Dockerfile content
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="formSaving || createApplicationForm.form.invalid">
+        <span class="fa fa-spin fa-spinner" *ngIf="formSaving"></span>
+        Submit
+      </button>
+    </form>
+  </div>
+  <div class="col-md-5"></div>
+</div>
