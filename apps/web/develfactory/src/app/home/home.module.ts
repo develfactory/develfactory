@@ -11,6 +11,7 @@ import {ApplicationsCreateComponent} from "./applications-create.component";
 import {HomeHomeComponent} from "./home-home.component";
 import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
+import {RequestService} from "../../services/request.service";
 
 @NgModule({
   imports: [
@@ -29,7 +30,7 @@ import {HttpModule} from "@angular/http";
     HomeHomeComponent,
     ApplicationsCreateComponent
   ],
-  providers: [FlashService]
+  providers: [FlashService, RequestService]
 })
 export class HomeModule {
 }
