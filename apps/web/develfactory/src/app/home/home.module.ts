@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule}   from '@angular/common';
 import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {TooltipModule} from "ng2-bootstrap";
+import {TooltipModule, AccordionModule} from "ng2-bootstrap";
 import {FlashService} from "../../services/flash.service";
 import {HomeRoutingModule} from "./home-routing.module";
 import {HomeComponent} from "./home.component";
@@ -12,6 +12,7 @@ import {HomeHomeComponent} from "./home-home.component";
 import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {RequestService} from "../../services/request.service";
+import {GithubSettingsComponent} from "./github-settings.component";
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import {RequestService} from "../../services/request.service";
     BrowserModule,
     FormsModule,
     TooltipModule.forRoot(),
+    AccordionModule.forRoot(),
     BrowserAnimationsModule,
     NoopAnimationsModule,
     ToastrModule.forRoot(),
@@ -28,7 +30,8 @@ import {RequestService} from "../../services/request.service";
   declarations: [
     HomeComponent,
     HomeHomeComponent,
-    ApplicationsCreateComponent
+    ApplicationsCreateComponent,
+    GithubSettingsComponent
   ],
   providers: [FlashService, RequestService]
 })

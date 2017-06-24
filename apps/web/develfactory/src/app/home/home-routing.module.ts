@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./home.component";
 import {ApplicationsCreateComponent} from "./applications-create.component";
 import {HomeHomeComponent} from "./home-home.component";
+import {GithubSettingsComponent} from "./github-settings.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'applications/create',
         component: ApplicationsCreateComponent
+      },
+      {
+        path: 'settings/github',
+        component: GithubSettingsComponent
       }
     ]
   }

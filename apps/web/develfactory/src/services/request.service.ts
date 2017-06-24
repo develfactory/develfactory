@@ -63,4 +63,30 @@ export class RequestService {
       })
       .catch(error => Promise.reject(error.message || error));
   }
+
+  put(url: string, data: Object = {}, params: Object = {}): Promise<any> {
+    let str_params = "?" + RequestService.convertObjectToParams(params);
+    let final_url = url;
+    if (str_params.length != 1) {
+      final_url += str_params;
+    }
+    let postData = RequestService.convertObjectToParams(data);
+    let headers = new Headers({
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    });
+
+    let options = {
+      headers: headers
+    };
+
+    return this._http.put(this.apiDomain + final_url, postData, options).toPromise()
+      .then(res => {
+        try {
+          return res.json();
+        } catch (error) {
+          return Promise.reject(error.message || error);
+        }
+      })
+      .catch(error => Promise.reject(error.message || error));
+  }
 }
