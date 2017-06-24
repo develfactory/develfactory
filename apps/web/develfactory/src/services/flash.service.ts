@@ -15,27 +15,27 @@ export class FlashService implements OnInit {
     this.toastrConfig.timeOut = duration;
     this.toastrConfig.closeButton = true;
     this.toastrConfig.positionClass = 'toast-top-center';
-    this.toastrService.success(title, content);
+    this.toastrService.success(content, title);
   }
 
   error(title: string, content: string, duration = 15000) {
     this.toastrConfig.timeOut = duration;
     this.toastrConfig.closeButton = true;
     this.toastrConfig.positionClass = 'toast-top-center';
-    this.toastrService.error(title, content);
+    this.toastrService.error(content, title);
   }
 
   warning(title: string, content: string, duration = 15000) {
     this.toastrConfig.timeOut = duration;
     this.toastrConfig.closeButton = true;
     this.toastrConfig.positionClass = 'toast-top-center';
-    this.toastrService.warning(title, content);
+    this.toastrService.warning(content, title);
   }
 
   info(title: string, content: string, duration = 15000) {
     this.toastrConfig.timeOut = duration;
     this.toastrConfig.closeButton = true;
     this.toastrConfig.positionClass = 'toast-top-center';
-    this.toastrService.info(title, content);
+    this.toastrService.info(content, title);
   }
 }
