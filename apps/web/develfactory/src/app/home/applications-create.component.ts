@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
-import {Headers, Http} from "@angular/http";
 import {FlashService} from "../../services/flash.service";
+import {RequestService} from "../../services/request.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'applications-create',
@@ -11,58 +12,52 @@ import {FlashService} from "../../services/flash.service";
 export class ApplicationsCreateComponent implements OnInit {
 
   formSaving: boolean;
-  form: Object;
+  formStep1: Object;
+  application: Object;
+  currentStep: string;
 
-  constructor(private _titleService: Title, private _http: Http, private _flashService: FlashService) {
+  constructor(private _titleService: Title, private _requestService: RequestService, private _flashService: FlashService, private _activatedRoute: ActivatedRoute, private _router: Router) {
 
   }
 
   ngOnInit(): void {
     this._titleService.setTitle("Create a new application");
     this.formSaving = false;
-    this.resetForm();
-  }
+    this.application = {
+      id: this._activatedRoute.snapshot.params['id']
+    };
+    this.currentStep = this._activatedRoute.snapshot.params['step'];
+    this._activatedRoute.params.subscribe(params => {
+      this.currentStep = params['step'];
+    });
 
-  private resetForm() {
-    this.form = {
+    this.formStep1 = {
       name: '',
-      content: '',
+      domain: '',
+      ssl: false,
     };
   }
 
-  private _convertObjectToParams(obj: Object): string {
-    let p = [];
-    for (let key in obj) {
-      p.push(key + '=' + encodeURIComponent(obj[key]));
-    }
-    return p.join('&');
-  }
-
-  saveForm() {
-    // TODO create a dedicated service for requests
-    // TODO replace URL by dynamic url
-    // TODO optimize the convert function to allow multiple-level objects
-    this.formSaving = true;
-    let h = new Headers({
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    });
-    let data = this._convertObjectToParams(this.form);
-    this._http.post('http://local.api.develfactory.net/applications', data, {headers: h}).subscribe(
+  saveForm1() {
+    this._requestService.post("/applications", this.formStep1).then(
       data => {
-        let json = data.json();
         this.formSaving = false;
-        if (json.code == "application_created") {
+        if (data.code == "application_created") {
           this._flashService.success("Application created!", "The application has been created.");
-          this.resetForm();
+          this.application['id'] = data.result['id'];
+          this.application['name'] = this.formStep1['name'];
+          this.application['domain'] = this.formStep1['domain'];
+          this.application['ssl'] = this.formStep1['ssl'];
+          this._router.navigate(["/home/applications/create", this.application['id'], 2]);
         } else {
           this._flashService.error("An error occurred", "An unknown error occurred, please retry.");
         }
-      },
-      err => {
+      }
+    ).catch(
+      error => {
         this.formSaving = false;
         this._flashService.error("An error occurred", "An error occurred, please retry.");
       }
     );
-
   }
 }

@@ -1,27 +1,72 @@
 <h1>Add a new application</h1>
-<p><a [routerLink]="'/home'">Go back to Home</a></p>
+<ul class="breadcrumb">
+  <li><a [routerLink]="'/home'">Home</a></li>
+  <li class="active">Applications</li>
+  <li class="active">Create</li>
+</ul>
 <div class="row">
+  <div class="col-xs-12">
+    <ul class="nav nav-pills nav-justified thumbnail">
+      <li [ngClass]="{'active': currentStep == 1}">
+        <a [routerLink]="['/home/applications/create/', application.id, 1]">
+          <h4 class="list-group-item-heading">Step 1</h4>
+          <p class="list-group-item-text">Application and domain name</p>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentStep == 2}">
+        <a [routerLink]="['/home/applications/create/', application.id, 2]">
+          <h4 class="list-group-item-heading">Step 2</h4>
+          <p class="list-group-item-text">Source files</p>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentStep == 3}">
+        <a [routerLink]="['/home/applications/create/', application.id, 3]">
+          <h4 class="list-group-item-heading">Step 3</h4>
+          <p class="list-group-item-text">Folder path</p>
+        </a>
+      </li>
+      <li [ngClass]="{'active': currentStep == 4}">
+        <a [routerLink]="['/home/applications/create/', application.id, 4]">
+          <h4 class="list-group-item-heading">Step 4</h4>
+          <p class="list-group-item-text">Environment configuration</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row" *ngIf="currentStep == 1">
   <div class="col-md-7">
-    <form (ngSubmit)="saveForm()" #createApplicationForm="ngForm">
-      <div class="form-group" [ngClass]="{'has-error': !(name.valid || name.pristine)}">
-        <label for="name">Name<span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="form.name" required="required"
+    <form (ngSubmit)="saveForm1()" #createApplicationForm="ngForm">
+      <div class="form-group" [ngClass]="{'has-error': name.invalid && name.touched}">
+        <label for="name">Application name<span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="formStep1.name" required="required"
+               placeholder="My website"
                #name="ngModel">
-        <div *ngIf="name.invalid && name.dirty" class="help-block">
+        <div *ngIf="name.invalid && name.touched" class="help-block">
           Please enter the name of the application
         </div>
       </div>
-      <div class="form-group" [ngClass]="{'has-error': !(content.valid || content.pristine)}">
-        <label for="content">Dockerfile<span class="text-danger">*</span></label>
-        <textarea id="content" rows="10" class="form-control" [(ngModel)]="form.content" required="required"
-                  name="content" #content="ngModel"></textarea>
-        <div *ngIf="content.invalid && content.dirty" class="help-block">
-          Please enter your Dockerfile content
+      <div class="form-group" [ngClass]="{'has-error': domain.invalid && domain.touched}">
+        <label for="domain">Domain name<span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="domain" name="domain" [(ngModel)]="formStep1.domain"
+               required="required"
+               placeholder="domain.com"
+               #domain="ngModel">
+        <div *ngIf="domain.invalid && domain.touched" class="help-block">
+          Please enter the domain name of the application
         </div>
+        <p class="text-muted">Example: 'domain.com'. Please enter the domain without 'http(s)'.</p>
       </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" [checked]="formStep1.ssl" (change)="formStep1.ssl = $event.target.checked">
+          Enable SSL (https)
+        </label>
+      </div>
+      <p><span class="text-danger">*</span> Mandatory field</p>
       <button type="submit" class="btn btn-primary" [disabled]="formSaving || createApplicationForm.form.invalid">
         <span class="fa fa-spin fa-spinner" *ngIf="formSaving"></span>
-        Submit
+        Next step
       </button>
     </form>
   </div>

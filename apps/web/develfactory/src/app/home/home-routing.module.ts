@@ -15,7 +15,7 @@ const routes: Routes = [
         component: HomeHomeComponent
       },
       {
-        path: 'applications/create',
+        path: 'applications/create/:id/:step',
         component: ApplicationsCreateComponent
       },
       {
