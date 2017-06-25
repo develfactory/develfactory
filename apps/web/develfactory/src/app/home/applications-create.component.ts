@@ -6,7 +6,7 @@ import {FlashService} from "../../services/flash.service";
 @Component({
   selector: 'applications-create',
   templateUrl: 'applications-create.component.html',
-  styleUrls: []
+  styleUrls: ['home.component.less']
 })
 export class ApplicationsCreateComponent implements OnInit {
 

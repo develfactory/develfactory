@@ -4,7 +4,7 @@ import {Title} from "@angular/platform-browser";
 @Component({
   selector: 'home-home',
   templateUrl: './home-home.component.html',
-  styleUrls: []
+  styleUrls: ['home.component.less']
 })
 export class HomeHomeComponent implements OnInit {
 
