@@ -13,8 +13,10 @@ export class ApplicationsCreateComponent implements OnInit {
 
   formSaving: boolean;
   formStep1: Object;
+  formDirectUpload: Object;
   application: Object;
   currentStep: string;
+  defaultArchiveTypes: Array<Object>;
 
   constructor(private _titleService: Title, private _requestService: RequestService, private _flashService: FlashService, private _activatedRoute: ActivatedRoute, private _router: Router) {
 
@@ -31,10 +33,29 @@ export class ApplicationsCreateComponent implements OnInit {
       this.currentStep = params['step'];
     });
 
+    this.defaultArchiveTypes = [
+      {
+        key: 'zip',
+        text: '.zip',
+      },
+      {
+        key: 'tar.gz',
+        text: '.tar.gz',
+      },
+      {
+        key: 'tar.bz2',
+        text: '.tar.bz2',
+      }
+    ];
+
     this.formStep1 = {
       name: '',
       domain: '',
       ssl: false,
+    };
+    this.formDirectUpload = {
+      file: null,
+      type: 'zip'
     };
   }
 
@@ -52,6 +73,33 @@ export class ApplicationsCreateComponent implements OnInit {
         } else {
           this._flashService.error("An error occurred", "An unknown error occurred, please retry.");
         }
+      }
+    ).catch(
+      error => {
+        this.formSaving = false;
+        this._flashService.error("An error occurred", "An error occurred, please retry.");
+      }
+    );
+
+    this._requestService.post("/applications", {hello: "world", ar:["1", '2', '3'], obj: {test:"hello", aaa: 42}}).then();
+  }
+
+  changeDirectUploadFile(event) {
+    if (event.target.files.length) {
+      this.formDirectUpload['file'] = event.target.files[0];
+    } else {
+      this.formDirectUpload['file'] = false;
+    }
+  }
+
+  saveFormDirectUpload() {
+    this.formSaving = true;
+    let file: File = this.formDirectUpload['file'];
+    delete this.formDirectUpload['file'];
+    this._requestService.upload("/applications", file, this.formDirectUpload).then(
+      data => {
+        this.formSaving = false;
+        this._router.navigate(["/home/applications/create", this.application['id'], 3]);
       }
     ).catch(
       error => {

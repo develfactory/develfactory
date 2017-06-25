@@ -72,3 +72,50 @@
   </div>
   <div class="col-md-5"></div>
 </div>
+<div class="row" *ngIf="currentStep == 2">
+  <div class="col-md-6">
+    <h2 class="text-muted">Versioning system</h2>
+    <div class="alert alert-info" role="alert">
+      <h3>Feature not supported yet</h3>
+      <p>This feature is not currently supported in this version of develfactory.</p>
+    </div>
+    <div class="form">
+      <div class="form-group">
+        <label for="repository" class="text-muted">GitHub repository</label>
+        <select name="repository" id="repository" disabled="disabled" class="form-control"></select>
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" disabled="disabled">
+          Confirm this repository
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h2>Direct upload</h2>
+    <form (ngSubmit)="saveFormDirectUpload()" #directUploadForm="ngForm">
+      <div class="form-group" [ngClass]="{'has-error': formDirectUpload.file === false}">
+        <label for="file">Source files<span class="text-danger">*</span></label>
+        <input type="file" id="file" name="file" required="required"
+               (change)="changeDirectUploadFile($event)">
+        <div *ngIf="formDirectUpload.file === false" class="help-block">
+          Please select the archive file which contains your source files
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="type">Archive type<span class="text-danger">*</span></label>
+        <select class="form-control" id="type" name="type" [(ngModel)]="formDirectUpload.type">
+          <option *ngFor="let archiveType of defaultArchiveTypes" value="{{ archiveType.key }}">
+            {{ archiveType.text }}
+          </option>
+        </select>
+      </div>
+      <p><span class="text-danger">*</span> Mandatory field</p>
+      <button type="submit" class="btn btn-primary"
+              [disabled]="formSaving || (formDirectUpload.file === false || formDirectUpload.file === null)">
+        <span class="fa fa-spin fa-spinner" *ngIf="formSaving"></span>
+        Upload source files
+      </button>
+    </form>
+  </div>
+</div>
